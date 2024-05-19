@@ -4,7 +4,9 @@ using Without.Systems.Comprehend.Structures;
 namespace Without.Systems.Comprehend
 {
     [OSInterface(
-        Description = "Sample template action")]
+        Name = "AWSComprehend",
+        Description = "Amazon Comprehend uses natural language processing (NLP) to extract insights about the content of documents. It develops insights by recognizing the entities, key phrases, language, sentiments, and other common elements in a document.",
+        IconResourceName = "Without.Systems.Comprehend.Resources.Comprehend.png")]
     public interface IComprehend
     {
 
@@ -15,7 +17,7 @@ namespace Without.Systems.Comprehend
             ReturnDescription =
                 "Array of languages that Amazon Comprehend detected in the input text. The array is sorted in descending order of the score (the dominant language is always the first element in the array)",
             ReturnType = OSDataType.InferredFromDotNetType,
-            IconResourceName = "Without.Systems.BedrockRuntime.Resources.Comprehend.png")]
+            IconResourceName = "Without.Systems.Comprehend.Resources.Comprehend.png")]
         List<DominantLanguage> DetectDominantLanguage(
             [OSParameter(
                 Description = "AWS Account Credentials",

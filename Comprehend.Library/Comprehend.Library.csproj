@@ -15,7 +15,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Resources\"/>
+      <None Remove="Resources\Comprehend.png" />
+      <EmbeddedResource Include="Resources\Comprehend.png" />
     </ItemGroup>
 
 </Project>
