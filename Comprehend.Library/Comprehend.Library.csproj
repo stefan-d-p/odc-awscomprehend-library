@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>Without.Systems.Comprehend.Library</AssemblyName>
+        <RootNamespace>Without.Systems.Comprehend</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="13.0.1" />
+        <PackageReference Include="AWSSDK.Comprehend" Version="3.7.300.93" />
+        <PackageReference Include="OutSystems.ExternalLibraries.SDK" Version="1.4.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Resources\"/>
+    </ItemGroup>
+
+</Project>
