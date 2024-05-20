@@ -32,5 +32,70 @@ namespace Without.Systems.Comprehend
                     "A UTF-8 text string. The string must contain at least 20 characters. The maximum string size is 100 KB.",
                 DataType = OSDataType.Text)]
             string text);
+
+        [OSAction(
+            Description =
+                "Detects named entities in input text when you use the pre-trained model. Detects custom entities if you have a custom entity recognition model",
+            ReturnName = "result",
+            ReturnDescription =
+                "Detected Entities Result",
+            ReturnType = OSDataType.InferredFromDotNetType,
+            IconResourceName = "Without.Systems.Comprehend.Resources.Comprehend.png")]
+        DetectEntitiesResponse DetectEntities(
+            [OSParameter(
+                Description = "AWS Account Credentials",
+                DataType = OSDataType.InferredFromDotNetType)]
+            Credentials credentials,
+            [OSParameter(
+                Description = "AWS Region",
+                DataType = OSDataType.Text)]
+            string region,
+            [OSParameter(
+                Description = "Detect Entities Request Parameters")]
+            DetectEntitiesRequest detectEntitiesRequest);
+
+        [OSAction(
+            Description =
+                "Detects the key noun phrases found in the text",
+            ReturnName = "result",
+            ReturnDescription =
+                "Detected Key Phrases Result",
+            ReturnType = OSDataType.InferredFromDotNetType,
+            IconResourceName = "Without.Systems.Comprehend.Resources.Comprehend.png")]
+        DetectKeyPhrasesResponse DetectKeyPhrases(
+            [OSParameter(
+                Description = "AWS Account Credentials",
+                DataType = OSDataType.InferredFromDotNetType)]
+            Credentials credentials,
+            [OSParameter(
+                Description = "AWS Region",
+                DataType = OSDataType.Text)]
+            string region,
+            [OSParameter(
+                Description = "Detect Key Phrases Request Parameters",
+                DataType = OSDataType.InferredFromDotNetType)]
+            DetectKeyPhrasesRequest detectKeyPhrasesRequest);
+
+        [OSAction(
+            Description =
+                "Inspects the input text for entities that contain personally identifiable information (PII) and returns information about them",
+            ReturnName = "result",
+            ReturnDescription =
+                "Detected PII Entities Result",
+            ReturnType = OSDataType.InferredFromDotNetType,
+            IconResourceName = "Without.Systems.Comprehend.Resources.Comprehend.png")]
+        DetectPiiEntitiesResponse DetectPiiEntities(
+            [OSParameter(
+                Description = "AWS Account Credentials",
+                DataType = OSDataType.InferredFromDotNetType)]
+            Credentials credentials,
+            [OSParameter(
+                Description = "AWS Region",
+                DataType = OSDataType.Text)]
+            string region,
+            [OSParameter(
+                Description = "Detect PII Entities Request Parameters",
+                DataType = OSDataType.InferredFromDotNetType)]
+            DetectPiiEntitiesRequest detectPiiEntitiesRequest);
     }
 }
