@@ -140,5 +140,26 @@ namespace Without.Systems.Comprehend
             [OSParameter(
                 Description = "Detect Syntax Request Parameters")]
             DetectSyntaxRequest detectSyntaxRequest);
+
+        [OSAction(
+            Description =
+                "Creates a classification request to analyze a single document in real-time",
+            ReturnName = "result",
+            ReturnDescription =
+                "Classified Document Result",
+            ReturnType = OSDataType.InferredFromDotNetType,
+            IconResourceName = "Without.Systems.Comprehend.Resources.Comprehend.png")]
+        ClassifyDocumentResponse ClassifyDocument(
+            [OSParameter(
+                Description = "AWS Account Credentials",
+                DataType = OSDataType.InferredFromDotNetType)]
+            Credentials credentials,
+            [OSParameter(
+                Description = "AWS Region",
+                DataType = OSDataType.Text)]
+            string region,
+            [OSParameter(
+                Description = "Classify Documents Request Parameters")]
+            ClassifyDocumentRequest classifyDocumentRequest);
     }
 }

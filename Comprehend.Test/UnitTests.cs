@@ -123,4 +123,21 @@ public class Tests
         Assert.That(result.SyntaxTokens.Count, Is.Positive);
         
     }
+
+    [Test]
+    public void ClassifyDocument()
+    {
+        // Read a file with File.ReadAllBytes
+        
+        byte[] file = Array.Empty<byte>();
+
+        Structures.ClassifyDocumentRequest request = new Structures.ClassifyDocumentRequest
+        {
+            Bytes = file,
+            EndpointArn = "<Your custom model ARN>"
+        };
+
+        var result = _actions.ClassifyDocument(_credentials, _awsRegion, request);
+        Assert.That(result.Errors, Is.Empty);
+    }
 }

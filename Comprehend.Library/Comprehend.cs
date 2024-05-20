@@ -31,6 +31,13 @@ public class Comprehend : IComprehend
                 .ForMember(dest => dest.LanguageCode, opt => opt.MapFrom(src => LanguageCode.FindValue(src.LanguageCode)))
                 .ForMember(dest => dest.Bytes, opt => opt.Condition(src => src.Bytes is { Length: > 0 }))
                 .ForMember(dest => dest.Bytes, opt => opt.MapFrom(src => new MemoryStream(src.Bytes!)));
+            
+            cfg.CreateMap<Structures.ClassifyDocumentRequest, Amazon.Comprehend.Model.ClassifyDocumentRequest>()
+                .ForMember(dest => dest.EndpointArn, opt => opt.Condition(src => !string.IsNullOrEmpty(src.EndpointArn)))
+                .ForMember(dest => dest.Text, opt => opt.Condition(src => !string.IsNullOrEmpty(src.Text)))
+                .ForMember(dest => dest.DocumentReaderConfig, opt => opt.Condition(src => src.Bytes is { Length: > 0 }))
+                .ForMember(dest => dest.Bytes, opt => opt.Condition(src => src.Bytes is { Length: > 0 }))
+                .ForMember(dest => dest.Bytes, opt => opt.MapFrom(src => new MemoryStream(src.Bytes!)));
 
             cfg.CreateMap<Structures.DetectKeyPhrasesRequest, Amazon.Comprehend.Model.DetectKeyPhrasesRequest>()
                 .ForMember(dest => dest.LanguageCode,
@@ -61,6 +68,8 @@ public class Comprehend : IComprehend
             cfg.CreateMap<Amazon.Comprehend.Model.DetectSentimentResponse,Structures.DetectSentimentResponse>();
             
             cfg.CreateMap<Amazon.Comprehend.Model.DetectSyntaxResponse,Structures.DetectSyntaxResponse>();
+
+            cfg.CreateMap<Amazon.Comprehend.Model.ClassifyDocumentResponse, Structures.ClassifyDocumentResponse>();
             
             /*
              * Individual Mappings
@@ -85,6 +94,9 @@ public class Comprehend : IComprehend
             cfg.CreateMap<Amazon.Comprehend.Model.SentimentScore, Structures.SentimentScore>();
             cfg.CreateMap<Amazon.Comprehend.Model.PartOfSpeechTag, Structures.PartOfSpeechTag>();
             cfg.CreateMap<Amazon.Comprehend.Model.SyntaxToken, Structures.SyntaxToken>();
+            cfg.CreateMap<Amazon.Comprehend.Model.DocumentLabel, Structures.DocumentLabel>();
+            cfg.CreateMap<Amazon.Comprehend.Model.DocumentClass, Structures.DocumentClass>();
+            cfg.CreateMap<Amazon.Comprehend.Model.WarningsListItem, Structures.WarningsListItem>();
 
         });
         _mapper = mapperConfiguration.CreateMapper();
@@ -196,6 +208,26 @@ public class Comprehend : IComprehend
         Amazon.Comprehend.Model.DetectSyntaxResponse response = AsyncUtil.RunSync(() => client.DetectSyntaxAsync(request));
         ParseResponse(response);
         return _mapper.Map<Structures.DetectSyntaxResponse>(response);
+    }
+    
+    /// <summary>
+    /// Creates a classification request to analyze a single document in real-time. ClassifyDocument supports the following model types:
+    /// Custom classifier - a custom model that you have created and trained. For input, you can provide plain text, a single-page document (PDF, Word, or image), or Amazon Textract API output. For more information, see Custom classification in the Amazon Comprehend Developer Guide.
+    /// Prompt safety classifier - Amazon Comprehend provides a pre-trained model for classifying input prompts for generative AI applications. For input, you provide English plain text input. For prompt safety classification, the response includes only the Classes field. For more information about prompt safety classifiers, see Prompt safety classification in the Amazon Comprehend Developer Guide.
+    /// If the system detects errors while processing a page in the input document, the API response includes an Errors field that describes the errors.
+    /// </summary>
+    /// <param name="credentials">AWS IAM Credentials</param>
+    /// <param name="region">System name of AWS region</param>
+    /// <param name="classifyDocumentRequest">Classify Document Request Parameters</param>
+    /// <returns>Classify Document Result Structure</returns>
+    public Structures.ClassifyDocumentResponse ClassifyDocument(Credentials credentials, string region, 
+        Structures.ClassifyDocumentRequest classifyDocumentRequest)
+    {
+        AmazonComprehendClient client = GetComprehendClient(credentials, region);
+        var request = _mapper.Map<Amazon.Comprehend.Model.ClassifyDocumentRequest>(classifyDocumentRequest);
+        Amazon.Comprehend.Model.ClassifyDocumentResponse response = AsyncUtil.RunSync(() => client.ClassifyDocumentAsync(request));
+        ParseResponse(response);
+        return _mapper.Map<Structures.ClassifyDocumentResponse>(response);
     }
     
     private AmazonComprehendClient GetComprehendClient(Credentials credentials, string region) =>
