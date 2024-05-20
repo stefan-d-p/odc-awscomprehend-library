@@ -25,7 +25,7 @@ public struct DocumentReaderConfig
         Description =
             "Specifies the type of Amazon Textract features to apply. If you chose TEXTRACT_ANALYZE_DOCUMENT as the read action, you must specify one or both of the following values:\n\nTABLES - Returns additional information about any tables that are detected in the input document.\n\nFORMS - Returns additional information about any forms that are detected in the input document.",
         IsMandatory = false)]
-    public List<string> FeatureTypes;
+    public List<string>? FeatureTypes;
 
 
 }

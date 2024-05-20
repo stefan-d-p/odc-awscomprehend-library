@@ -16,7 +16,7 @@ public struct ClassifyDocumentRequest
         Description =
             "Provides configuration parameters to override the default actions for extracting text from PDF documents and image files",
         IsMandatory = false)]
-    public Amazon.Comprehend.Model.DocumentReaderConfig? DocumentReaderConfig;
+    public DocumentReaderConfig? DocumentReaderConfig;
     
     [OSStructureField(
         Description = "The Amazon Resource Number (ARN) of the endpoint. Mandatory.",

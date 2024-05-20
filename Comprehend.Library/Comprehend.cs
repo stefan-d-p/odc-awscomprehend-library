@@ -88,7 +88,6 @@ public class Comprehend : IComprehend
             cfg.CreateMap<Amazon.Comprehend.Model.Geometry, Structures.Geometry>();
             cfg.CreateMap<Amazon.Comprehend.Model.Point, Structures.Point>();
             cfg.CreateMap<Amazon.Comprehend.Model.RelationshipsListItem, Structures.RelationshipsListItem>();
-            cfg.CreateMap<Amazon.Comprehend.Model.DocumentReaderConfig, Structures.DocumentReaderConfig>();
             cfg.CreateMap<Amazon.Comprehend.Model.KeyPhrase, Structures.KeyPhrase>();
             cfg.CreateMap<Amazon.Comprehend.Model.PiiEntity, Structures.PiiEntity>();
             cfg.CreateMap<Amazon.Comprehend.Model.SentimentScore, Structures.SentimentScore>();
@@ -97,6 +96,8 @@ public class Comprehend : IComprehend
             cfg.CreateMap<Amazon.Comprehend.Model.DocumentLabel, Structures.DocumentLabel>();
             cfg.CreateMap<Amazon.Comprehend.Model.DocumentClass, Structures.DocumentClass>();
             cfg.CreateMap<Amazon.Comprehend.Model.WarningsListItem, Structures.WarningsListItem>();
+
+            cfg.CreateMap<Structures.DocumentReaderConfig, Amazon.Comprehend.Model.DocumentReaderConfig>();
 
         });
         _mapper = mapperConfiguration.CreateMapper();

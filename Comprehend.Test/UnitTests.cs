@@ -52,7 +52,7 @@ public class Tests
             LanguageCode = "en",
             EndpointArn = "",
             Bytes = Array.Empty<byte>(),
-            DocumentReaderConfig = new DocumentReaderConfig()
+            DocumentReaderConfig = new Structures.DocumentReaderConfig()
         };
         var result = _actions.DetectEntities(_credentials, _awsRegion, request);
         Assert.That(result.Entities.Count, Is.Positive);
