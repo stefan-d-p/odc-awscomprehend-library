@@ -90,4 +90,37 @@ public class Tests
         Assert.That(result.Entities.Count, Is.Positive);
     }
 
+    [Test]
+    public void DetectSentiment()
+    {
+        string text =
+            "Molly Gamble, vice president of editorial for Becker’s Healthcare, kicked off the webinar with results from her organization’s healthcare transformation trends survey. The survey, performed in partnership with Amazon Web Services (AWS), gathered responses from 115 healthcare leaders.";
+        
+        Structures.DetectSentimentRequest request = new Structures.DetectSentimentRequest
+        {
+            Text = text,
+            LanguageCode = "en"
+        };
+        
+        var result = _actions.DetectSentiment(_credentials, _awsRegion, request);
+        Assert.That(result.Sentiment,Is.EqualTo("NEUTRAL"));
+
+    }
+
+    [Test]
+    public void DetectSyntax()
+    {
+        string text =
+            "Molly Gamble, vice president of editorial for Becker’s Healthcare, kicked off the webinar with results from her organization’s healthcare transformation trends survey. The survey, performed in partnership with Amazon Web Services (AWS), gathered responses from 115 healthcare leaders.";
+
+        Structures.DetectSyntaxRequest request = new Structures.DetectSyntaxRequest
+        {
+            Text = text,
+            LanguageCode = "en"
+        };
+
+        var result = _actions.DetectSyntax(_credentials, _awsRegion, request);
+        Assert.That(result.SyntaxTokens.Count, Is.Positive);
+        
+    }
 }

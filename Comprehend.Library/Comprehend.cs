@@ -32,10 +32,21 @@ public class Comprehend : IComprehend
                 .ForMember(dest => dest.Bytes, opt => opt.Condition(src => src.Bytes is { Length: > 0 }))
                 .ForMember(dest => dest.Bytes, opt => opt.MapFrom(src => new MemoryStream(src.Bytes!)));
 
-            cfg.CreateMap<Structures.DetectKeyPhrasesRequest,
-                Amazon.Comprehend.Model.DetectKeyPhrasesRequest>();
+            cfg.CreateMap<Structures.DetectKeyPhrasesRequest, Amazon.Comprehend.Model.DetectKeyPhrasesRequest>()
+                .ForMember(dest => dest.LanguageCode,
+                    opt => opt.MapFrom(src => LanguageCode.FindValue(src.LanguageCode)));
 
-            cfg.CreateMap<Structures.DetectPiiEntitiesRequest, Amazon.Comprehend.Model.DetectPiiEntitiesRequest>();
+            cfg.CreateMap<Structures.DetectPiiEntitiesRequest, Amazon.Comprehend.Model.DetectPiiEntitiesRequest>()
+                .ForMember(dest => dest.LanguageCode,
+                    opt => opt.MapFrom(src => LanguageCode.FindValue(src.LanguageCode)));
+            
+            cfg.CreateMap<Structures.DetectSentimentRequest, Amazon.Comprehend.Model.DetectSentimentRequest>()
+                .ForMember(dest => dest.LanguageCode,
+                    opt => opt.MapFrom(src => LanguageCode.FindValue(src.LanguageCode)));
+            
+            cfg.CreateMap<Structures.DetectSyntaxRequest, Amazon.Comprehend.Model.DetectSyntaxRequest>()
+                .ForMember(dest => dest.LanguageCode,
+                    opt => opt.MapFrom(src => SyntaxLanguageCode.FindValue(src.LanguageCode)));
             
             /*
              * Response Mapping Configuration
@@ -46,6 +57,10 @@ public class Comprehend : IComprehend
             cfg.CreateMap<Amazon.Comprehend.Model.DetectKeyPhrasesResponse,Structures.DetectKeyPhrasesResponse>();
             
             cfg.CreateMap<Amazon.Comprehend.Model.DetectPiiEntitiesResponse,Structures.DetectPiiEntitiesResponse>();
+            
+            cfg.CreateMap<Amazon.Comprehend.Model.DetectSentimentResponse,Structures.DetectSentimentResponse>();
+            
+            cfg.CreateMap<Amazon.Comprehend.Model.DetectSyntaxResponse,Structures.DetectSyntaxResponse>();
             
             /*
              * Individual Mappings
@@ -67,6 +82,9 @@ public class Comprehend : IComprehend
             cfg.CreateMap<Amazon.Comprehend.Model.DocumentReaderConfig, Structures.DocumentReaderConfig>();
             cfg.CreateMap<Amazon.Comprehend.Model.KeyPhrase, Structures.KeyPhrase>();
             cfg.CreateMap<Amazon.Comprehend.Model.PiiEntity, Structures.PiiEntity>();
+            cfg.CreateMap<Amazon.Comprehend.Model.SentimentScore, Structures.SentimentScore>();
+            cfg.CreateMap<Amazon.Comprehend.Model.PartOfSpeechTag, Structures.PartOfSpeechTag>();
+            cfg.CreateMap<Amazon.Comprehend.Model.SyntaxToken, Structures.SyntaxToken>();
 
         });
         _mapper = mapperConfiguration.CreateMapper();
@@ -144,6 +162,40 @@ public class Comprehend : IComprehend
         Amazon.Comprehend.Model.DetectPiiEntitiesResponse response = AsyncUtil.RunSync(() => client.DetectPiiEntitiesAsync(request));
         ParseResponse(response);
         return _mapper.Map<Structures.DetectPiiEntitiesResponse>(response);
+    }
+
+    /// <summary>
+    /// Inspects text and returns an inference of the prevailing sentiment (POSITIVE, NEUTRAL, MIXED, or NEGATIVE)
+    /// </summary>
+    /// <param name="credentials">AWS IAM Credentials</param>
+    /// <param name="region">System name of AWS region</param>
+    /// <param name="detectSentimentRequest">Detect Sentiment Request Parameters</param>
+    /// <returns>Detected Sentiment</returns>
+    public Structures.DetectSentimentResponse DetectSentiment(Credentials credentials, string region,
+        Structures.DetectSentimentRequest detectSentimentRequest)
+    {
+        AmazonComprehendClient client = GetComprehendClient(credentials, region);
+        var request = _mapper.Map<Amazon.Comprehend.Model.DetectSentimentRequest>(detectSentimentRequest);
+        Amazon.Comprehend.Model.DetectSentimentResponse response = AsyncUtil.RunSync(() => client.DetectSentimentAsync(request));
+        ParseResponse(response);
+        return _mapper.Map<Structures.DetectSentimentResponse>(response);
+    }
+
+    /// <summary>
+    /// Inspects text for syntax and the part of speech of words in the document.
+    /// </summary>
+    /// <param name="credentials">AWS IAM Credentials</param>
+    /// <param name="region">System name of AWS region</param>
+    /// <param name="detectSyntaxRequest">Detect Syntax Request Parameters</param>
+    /// <returns>Array of Syntax Tokens</returns>
+    public Structures.DetectSyntaxResponse DetectSyntax(Credentials credentials, string region,
+        Structures.DetectSyntaxRequest detectSyntaxRequest)
+    {
+        AmazonComprehendClient client = GetComprehendClient(credentials, region);
+        var request = _mapper.Map<Amazon.Comprehend.Model.DetectSyntaxRequest>(detectSyntaxRequest);
+        Amazon.Comprehend.Model.DetectSyntaxResponse response = AsyncUtil.RunSync(() => client.DetectSyntaxAsync(request));
+        ParseResponse(response);
+        return _mapper.Map<Structures.DetectSyntaxResponse>(response);
     }
     
     private AmazonComprehendClient GetComprehendClient(Credentials credentials, string region) =>

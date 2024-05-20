@@ -97,5 +97,48 @@ namespace Without.Systems.Comprehend
                 Description = "Detect PII Entities Request Parameters",
                 DataType = OSDataType.InferredFromDotNetType)]
             DetectPiiEntitiesRequest detectPiiEntitiesRequest);
+
+        [OSAction(
+            Description =
+                "Inspects text and returns an inference of the prevailing sentiment (POSITIVE, NEUTRAL, MIXED, or NEGATIVE)",
+            ReturnName = "result",
+            ReturnDescription =
+                "Detected Sentiment Result",
+            ReturnType = OSDataType.InferredFromDotNetType,
+            IconResourceName = "Without.Systems.Comprehend.Resources.Comprehend.png")]
+        DetectSentimentResponse DetectSentiment(
+            [OSParameter(
+                Description = "AWS Account Credentials",
+                DataType = OSDataType.InferredFromDotNetType)]
+            Credentials credentials,
+            [OSParameter(
+                Description = "AWS Region",
+                DataType = OSDataType.Text)]
+            string region,
+            [OSParameter(
+                Description = "Detect Sentiment Request Parameters",
+                DataType = OSDataType.InferredFromDotNetType)]
+            DetectSentimentRequest detectSentimentRequest);
+
+        [OSAction(
+            Description =
+                "Inspects text for syntax and the part of speech of words in the document.",
+            ReturnName = "result",
+            ReturnDescription =
+                "Detected Syntax Tokens Result",
+            ReturnType = OSDataType.InferredFromDotNetType,
+            IconResourceName = "Without.Systems.Comprehend.Resources.Comprehend.png")]
+        DetectSyntaxResponse DetectSyntax(
+            [OSParameter(
+                Description = "AWS Account Credentials",
+                DataType = OSDataType.InferredFromDotNetType)]
+            Credentials credentials,
+            [OSParameter(
+                Description = "AWS Region",
+                DataType = OSDataType.Text)]
+            string region,
+            [OSParameter(
+                Description = "Detect Syntax Request Parameters")]
+            DetectSyntaxRequest detectSyntaxRequest);
     }
 }
