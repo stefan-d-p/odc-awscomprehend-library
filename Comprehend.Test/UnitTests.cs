@@ -25,7 +25,7 @@ public class Tests
         string awsSecretAccessKey = configuration["AWSSecretAccessKey"] ?? throw new InvalidOperationException();
 
         _credentials = new Credentials(awsAccessKey, awsSecretAccessKey);
-        
+
     }
 
     [Test]
@@ -43,8 +43,8 @@ public class Tests
     {
         string text =
             "Molly Gamble, vice president of editorial for Becker’s Healthcare, kicked off the webinar with results from her organization’s healthcare transformation trends survey. The survey, performed in partnership with Amazon Web Services (AWS), gathered responses from 115 healthcare leaders.";
-        
-        
+
+
         /* With empty initializer because OutSystems send default values for everything */
         DetectEntitiesRequest request = new DetectEntitiesRequest
         {
@@ -57,7 +57,10 @@ public class Tests
         var result = _actions.DetectEntities(_credentials, _awsRegion, request);
         Assert.That(result.Entities.Count, Is.Positive);
     }
+
     
+
+
     [Test]
     public void DetectKeyPhrases()
     {
@@ -139,5 +142,17 @@ public class Tests
 
         var result = _actions.ClassifyDocument(_credentials, _awsRegion, request);
         Assert.That(result.Errors, Is.Empty);
+    }
+
+    [Test]
+    public void DetectEntities_Document()
+    {
+        var doc = File.ReadAllBytes(@"C:\dev\sample.pdf");
+        Structures.DetectEntitiesRequest request = new DetectEntitiesRequest
+        {
+            Bytes = doc
+        };
+        
+        var result = _actions.DetectEntities(_credentials, _awsRegion, request);
     }
 }
