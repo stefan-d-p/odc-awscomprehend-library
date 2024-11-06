@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
@@ -11,6 +11,7 @@
 
         <RootNamespace>Without.Systems.Comprehend.Test</RootNamespace>
       <UserSecretsId>585495fb-efe0-41ff-bb63-0d201f04f6db</UserSecretsId>
+      <LangVersion>12</LangVersion>
   </PropertyGroup>
 
     <ItemGroup>
